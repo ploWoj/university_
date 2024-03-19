@@ -91,4 +91,15 @@ void University::sortBySalary() {
                 });
 }
 
-
+void University::removeByIndexNumber(size_t indexNumber) {
+    size_t i = 0;
+    for (const auto& el : university_) {
+        if (auto s = dynamic_cast<Student*>(el.get())) {
+            if (s->getIndex() == indexNumber) {
+                university_.erase(university_.begin() + i);
+                break;
+            }
+        }
+        i++;
+    }
+}
