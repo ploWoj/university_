@@ -7,7 +7,7 @@ void Employee::setSalray(const double& salary) {
     salary_ = salary;
 }
 
-double getSalary() const {
+double Employee::getSalary() const {
     return salary_;
 }
 
