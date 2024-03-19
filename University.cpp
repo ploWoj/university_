@@ -1,5 +1,7 @@
 #include "University.hpp"
 
+#include <functional>
+
 const std::vector<std::unique_ptr<Person>>& University::getVector() const {
     return university_;
 }
@@ -71,5 +73,22 @@ void University::sortBySurname() {
     std::sort(university_.begin(), university_.end(),
                 [](const std::unique_ptr<Person>& lhs, const std::unique_ptr<Person>& rhs) {
                     return lhs->getSurname() < rhs->getSurname();
-                })
+                });
 }
+
+std::optional<double> getSalaryIfIs(const std::unique_ptr<Person>& person) {
+    if (auto* employee = dynamic_cast<Employee*>(person.get())) {
+        return employee->getSalary();
+    }
+
+    return std::nullptr_t;
+}
+
+void University::sortBySalary() {
+    std::sort(university_.begin(), university_.end(),
+                [](const std::unique_ptr<Person>& lhs, const std::unique_ptr<Person>& rhs) {
+                    return getSalaryIfIs(lhs).value_or(0.0) > getSalaryIfIs(rhs).value_or(0.0) || (getSalaryIfIs(lhs).value_or(0.0) == getSalaryIfIs(rhs).value_or(0.0) && lhs->getSurname() < rhs->getSurname());
+                });
+}
+
+
