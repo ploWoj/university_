@@ -1,5 +1,9 @@
 #pragma once
 
+#include <array>
+#include <functional>
+#include <utility>
+
 #include "University.hpp"
 
 class Command {
