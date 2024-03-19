@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(university_)
 
-set(SOURCE Person.cpp)
+set(SOURCE Person.cpp Student.cpp)
 set(FLAG -Wall -Wextra -O3)
 
 add_library(${PROJECT_NAME}-lib STATIC ${SOURCE})
