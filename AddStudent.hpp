@@ -2,7 +2,7 @@
 
 #include <array>
 #include <iostream>
-#include <studio.h>
+#include <stdio.h>
 #include <string>
 
 #include "Command.hpp"
@@ -31,7 +31,7 @@ public:
         getchar();
     }
 
-    void getName() {
+    void getName() const override {
         std::cout << "AddStudent\n";
     }
-}
+};

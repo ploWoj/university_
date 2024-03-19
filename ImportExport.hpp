@@ -29,10 +29,10 @@ public:
                                             std::cout << "Do you want to back to main-manu ( y/n ): ";
                                             char c;
                                             std::cin >> c;
-                                            if (c == 'n' {
+                                            if (c == 'n') {
                                                 option += 1;
                                                 break;
-                                            })
+                                            }
                                             if (c == 'y') { break; }
                                         } while (true);
                                         return;
@@ -65,6 +65,6 @@ public:
     }
 
     void getName() const override {
-        std::cout << 'Import/Export\n';
+        std::cout << "Import/Export\n";
     }
 };

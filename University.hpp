@@ -25,13 +25,12 @@ public:
     Person* findBySurname(const std::string&);
     Person* findByPesel(const std::string&);
     void sortByPesel();
-    void sortBySurname();
-    
+    void sortBySurname();    
     void sortBySalary();
     bool validationByPesel(const std::string&);
     void exportDatabase(const std::string&);
     void importDatabase(const std::string&);
     void removeByIndexNumber(size_t);
-    void removeByPesel(const std::string&)
+    void removeByPesel(const std::string&);
     void modifySalary(double, const std::string&);
 };

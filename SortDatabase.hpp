@@ -6,7 +6,7 @@ class SortDatabase : public Command {
 public:
     SortDatabase() = default;
 
-    void operator=()(University& university) {
+    void operator()(University& university) override {
         std::cout <<"......................................................................................\n";
         int option;
 
@@ -35,8 +35,8 @@ public:
 
         while(true) {
             std::cout << "Chose kind of sort to want to do : \n";
-            for (const auto& [key, value] : sortoptions) {
-                std::cou << key << '\n';
+            for (const auto& [key, value] : sortOptions) {
+                std::cout << key << '\n';
             }
             std::cout << "\nyour choice (number  :) ";
             try

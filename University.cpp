@@ -1,7 +1,9 @@
 #include "University.hpp"
 
+#include <cstddef>
 #include <functional>
 #include <fstream>
+#include <optional>
 
 const std::vector<std::unique_ptr<Person>>& University::getVector() const {
     return university_;
@@ -50,7 +52,7 @@ Person* University::findBySurname(const std::string& surname) {
 
 Person* University::findByPesel(const std::string& pesel) {
     auto isTheSame = [&pesel](std::unique_ptr<Person>& person) {
-        return person->getPesel();
+        return person->getPesel() == pesel;
     };
 
     auto it = std::find_if(university_.begin(), university_.end(), isTheSame);
@@ -82,7 +84,7 @@ std::optional<double> getSalaryIfIs(const std::unique_ptr<Person>& person) {
         return employee->getSalary();
     }
 
-    return std::nullptr_t;
+    return {};
 }
 
 void University::sortBySalary() {
@@ -102,6 +104,16 @@ void University::removeByIndexNumber(size_t indexNumber) {
             }
         }
         i++;
+    }
+}
+
+void University::removeByPesel(const std::string& pesel) {
+    auto find = std::find_if(university_.begin(), university_.end(),[&pesel](const std::unique_ptr<Person>& person) {
+            return person->getPesel() == pesel;
+    });
+
+    if (find != university_.end()) {
+        university_.erase(find);
     }
 }
 

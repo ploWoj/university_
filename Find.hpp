@@ -84,24 +84,27 @@ public:
         int option{};
 
         std::array<std::pair<std::string, std::function<void()>>, 3> findOptions {{
-            {"1-find-by-Pesel", [&]() { std::cout << "Provide PESEL of the person you are looking for: ",
+            {"1-find-by-Pesel", [&]() { std::cout << "Provide PESEL of the person you are looking for: ";
                                         std::string pesel;
-                                        std::getline(std::cin, pesel);
+                                        // std::getline(std::cin, pesel);
+                                        std::cin >> pesel;
                                         auto person = university.findByPesel(pesel);
                                         std::cout <<"......................................................................................\n";
                                         if (person) {
-                                            person->display();
+                                            *person->display();
                                             std::cout <<"......................................................................................\n";
                                             printSettings(person);
                                         } else {
-                                            std::cout << "There is on person with that pesel\n";
+                                            std::cout << "There is no person with that pesel\n";
                                         }
                                         std::cout <<"......................................................................................\n";
                                         std::getchar();
                                         return;}},
-            {"2-find-by-Surname", [&]() { std::cout << "Provide surname of the person you are looking for: ",
+            {"2-find-by-Surname", [&]() { 
+                                        std::cout << "Provide surname of the person you are looking for: ";
                                         std::string surname;
-                                        std::getline(std::cin, surname);
+                                        // std::getline(std::cin, surname); 
+                                        std::cin >> surname;
                                         auto person = university.findBySurname(surname);
                                         std::cout <<"......................................................................................\n";
                                         if (person) {

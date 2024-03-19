@@ -1,0 +1,8 @@
+8Employee,Kicia,Rozek,Gdynia,66666666666,female,999999
+8Employee,Kazimierz,Krol,Warszawa,76354276987,male,12765
+8Employee,Krzysztof,Kowalski,Lodz,66449874536,female,5498
+8Employee,Helena,Grzyb,Radom,5367598327,female,4536
+7Student,Gustaw,Kameleon,Wroclaw,63542956574,male,142356
+7Student,Kasia,Nowak,Warszawa,22334455667,female,162987
+7Student,Edward,Nozycoreki,Szczecin,55667788990,male,165498
+7Student,Martyna,Tucholska,Wroclaw,11223344556,female,162780

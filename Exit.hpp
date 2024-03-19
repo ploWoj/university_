@@ -9,7 +9,7 @@ private:
     bool& dbON_;
 public:
     Exit(bool& dbON) : dbON_(dbON) {};
-    ~Exit() override = default;
+    ~Exit() = default;
 
     void operator()([[maybe_unused]] University& university) override {
         do
@@ -17,13 +17,15 @@ public:
             std::cout << "Do you want to exit ? ( y/n ): ";
             char c;
             std::cin >> c;
-            if ( c == 'n') {
-                break;
+            if (c == 'n') {
+                dbON_ = true;
+                return;
             }
             if (c == 'y') {
                 std::string dbFile("db.txt");
                 university.exportDatabase(dbFile);
                 dbON_ = false;
+                break;
             }
         } while (true);
     }

@@ -16,7 +16,7 @@ public:
         std::getchar();
     }
 
-    void getName() {
+    void getName() const override {
         std::cout << "DisplayDatabase\n";
     }
 };
