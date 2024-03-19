@@ -15,7 +15,7 @@ class Person {
         std::string gender_ = "";
     public:
         Person() = default;
-        ~Person() = default;
+        virtual ~Person() = default;
         Person(std::string name, std::string surname, std::string address, std::string pesel, std::string gender);
 
         void setName(const std::string&);

@@ -11,7 +11,7 @@ size_t Student::getIndex() const {
     return indexNumber_;
 }
 
-void Student::display() const override {
+void Student::display() const {
     std::cout << name_ << ", " << surname_ << ", " << address_ << ", " << pesel_ << ", " <<
-    pesel_ << ", " << gender_ << ", " indexNumber_ << '\n';
+    pesel_ << ", " << gender_ << ", " << indexNumber_ << '\n';
 }
