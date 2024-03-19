@@ -1,5 +1,7 @@
 #pragma once 
 
+#include <string>
+
 #include "Person.hpp"
 
 class Employee : public Person {
