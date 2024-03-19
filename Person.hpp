@@ -2,7 +2,7 @@
 
 #include <algorithm>
 #include <iostream>
-#include <memeory>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -30,5 +30,5 @@ class Person {
         std::string getPesel() const;
         std::string getGender() const;
 
-        virtual void display() = 0;
+        virtual void display() const = 0;
 };

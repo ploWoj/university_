@@ -45,5 +45,5 @@ std::string Person::getGender() const {
 
 void Person::display() const {
     std::cout << name_ << ", " << surname_ << ", " << address_ << ", " <<
-        pesel_ << ", " << gender << '\n';
+        pesel_ << ", " << gender_ << '\n';
 }
