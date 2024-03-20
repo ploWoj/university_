@@ -12,6 +12,6 @@ double Employee::getSalary() const {
 }
 
 void Employee::display() const {
-    std::cout << name_ << ", " << surname_ << ", " << address_ << ", " << pesel_ << ", " <<
+    std::cout << name_ << ", " << surname_ << ", " << address_ << ", " <<
     pesel_ << ", " << gender_ << ", " << salary_ << '\n';
 }

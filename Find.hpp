@@ -91,7 +91,7 @@ public:
                                         auto person = university.findByPesel(pesel);
                                         std::cout <<"......................................................................................\n";
                                         if (person) {
-                                            *person->display();
+                                            person->display();
                                             std::cout <<"......................................................................................\n";
                                             printSettings(person);
                                         } else {

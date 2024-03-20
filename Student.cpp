@@ -12,6 +12,6 @@ size_t Student::getIndex() const {
 }
 
 void Student::display() const {
-    std::cout << name_ << ", " << surname_ << ", " << address_ << ", " << pesel_ << ", " <<
+    std::cout << name_ << ", " << surname_ << ", " << address_ << ", " <<
     pesel_ << ", " << gender_ << ", " << indexNumber_ << '\n';
 }
