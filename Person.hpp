@@ -14,6 +14,8 @@ class Person {
         std::string pesel_ = "";
         std::string gender_ = "";
     public:
+        static constexpr char formatDelimiter{','};
+
         Person() = default;
         virtual ~Person() = default;
         Person(std::string name, std::string surname, std::string address, std::string pesel, std::string gender);
@@ -31,4 +33,9 @@ class Person {
         std::string getGender() const;
 
         virtual void display() const = 0;
+
+        friend std::ostream& operator<<(std::ostream& os, const Person&);
+        friend std::istream& operator>>(std::istream& is, Person&);
 };
+
+char getStringToChar(std::istream& is, char delimeter);

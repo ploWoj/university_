@@ -13,6 +13,8 @@ public:
     ~Employee() = default;
     void setSalray(const double&);
 
+    
+
     double getSalary() const;
     void display() const override;
 };
