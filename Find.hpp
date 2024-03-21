@@ -90,10 +90,14 @@ public:
                                         std::cin >> pesel;
                                         auto person = university.findByPesel(pesel);
                                         std::cout <<"......................................................................................\n";
-                                        if (person) {
-                                            person->display();
+                                        if (const auto student_ptr{dynamic_cast<Student*>(person)}) {
+                                            std::cout << *student_ptr << '\n';
                                             std::cout <<"......................................................................................\n";
-                                            printSettings(person);
+                                            printSettings(student_ptr);
+                                        } else if(const auto employee_ptr{dynamic_cast<Employee*>(person)}) {
+                                            std::cout << *employee_ptr << '\n';
+                                            std::cout <<"......................................................................................\n";
+                                            printSettings(employee_ptr);
                                         } else {
                                             std::cout << "There is no person with that pesel\n";
                                         }
@@ -107,10 +111,14 @@ public:
                                         std::cin >> surname;
                                         auto person = university.findBySurname(surname);
                                         std::cout <<"......................................................................................\n";
-                                        if (person) {
-                                            person->display();
+                                        if (const auto student_ptr{dynamic_cast<Student*>(person)}) {
+                                            std::cout << *student_ptr << '\n';
                                             std::cout <<"......................................................................................\n";
-                                            printSettings(person);
+                                            printSettings(student_ptr);
+                                        } else if(const auto employee_ptr{dynamic_cast<Employee*>(person)}) {
+                                            std::cout << *employee_ptr << '\n';
+                                            std::cout <<"......................................................................................\n";
+                                            printSettings(employee_ptr);
                                         } else {
                                             std::cout << "There is on person with that surname\n";
                                         }

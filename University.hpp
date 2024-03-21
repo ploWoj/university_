@@ -20,7 +20,7 @@ public:
     ~University() = default;
 
     const std::vector<std::unique_ptr<Person>>& getVector() const;
-    void displayBase(std::ostream& os);
+    void displayBase(std::ostream& os = std::cout);
     void addStudent();
     void addStudent(std::string, std::string, std::string, std::string, std::string, size_t);
     void addEmployee();

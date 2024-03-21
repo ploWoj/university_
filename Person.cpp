@@ -56,10 +56,10 @@ std::string Person::getGender() const {
     return gender_;
 }
 
-void Person::display() const {
-    std::cout << name_ << ", " << surname_ << ", " << address_ << ", " <<
-        pesel_ << ", " << gender_ << '\n';
-}
+// void Person::display() const {
+//     std::cout << name_ << ", " << surname_ << ", " << address_ << ", " <<
+//         pesel_ << ", " << gender_ << '\n';
+// }
 
 std::ostream& operator<<(std::ostream& os, const Person& person) {
     os << person.name_ << " " << person.surname_ << " " << person.address_ <<

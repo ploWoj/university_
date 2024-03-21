@@ -9,9 +9,19 @@ const std::vector<std::unique_ptr<Person>>& University::getVector() const {
     return university_;
 }
 
-void University::displayBase(std::ostream& os) {
-    for (const auto& person : university_) {
-        person->display();
+void University::displayBase(std::ostream& out) {
+    out << "Employee: \n";
+    for (const auto& person_ptr : university_) {
+        if (const auto employee_ptr{dynamic_cast<Employee*>(person_ptr.get())}) {
+            out << *employee_ptr << '\n';
+        }
+    }
+
+    out << "Student: \n";
+    for (const auto& person_ptr : university_) {
+        if (const auto student_ptr{dynamic_cast<Student*>(person_ptr.get())}) {
+            out << *student_ptr << '\n';
+        }
     }
 }
 

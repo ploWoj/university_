@@ -15,6 +15,6 @@ public:
     void setSalray(const double&);
     double getSalary() const;
     // void display() const override;
-    std::ostream& operator<<(std::ostream& os, const Employee&);
-    std::istream& operator>>(std::istream& in, Employee&);        
+    friend std::ostream& operator<<(std::ostream& os, const Employee&);
+    friend std::istream& operator>>(std::istream& in, Employee&);        
 };
