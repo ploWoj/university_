@@ -33,4 +33,7 @@ public:
     void removeByIndexNumber(size_t);
     void removeByPesel(const std::string&);
     void modifySalary(double, const std::string&);
+
+    void importMysql(const std::string&);
+    void exportMysql(const std::string&);
 };
