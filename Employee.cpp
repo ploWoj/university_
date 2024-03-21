@@ -20,7 +20,7 @@ double Employee::getSalary() const {
 
 std::ostream& operator<<(std::ostream& os, const Employee& employee) {
     os << employee.name_ << Person::formatDelimiter 
-       << employee.surname_ << Pesron::formatDelimiter
+       << employee.surname_ << Person::formatDelimiter
        << employee.address_ << Person::formatDelimiter 
        << employee.pesel_ << Person::formatDelimiter
        << employee.gender_ << Person::formatDelimiter
