@@ -10,11 +10,11 @@ private:
 public:
     Employee() = default;
     Employee(std::string name, std::string surname, std::string address, std::string pesel, std::string gender, double salary);
+    Employee(const Person& person, double salary);
     ~Employee() = default;
     void setSalray(const double&);
-
-    
-
     double getSalary() const;
-    void display() const override;
+    // void display() const override;
+    std::ostream& operator<<(std::ostream& os, const Employee&);
+    std::istream& operator>>(std::istream& in, Employee&);        
 };
