@@ -1,6 +1,6 @@
 #include "Person.hpp"
 
-std::string get_string_to_char(std::istream& in, char delimiter) {
+std::string getStringToChar(std::istream& in, char delimiter) {
     std::string temp{};
     for (char current_char{}; in >> current_char;) {
         if (current_char == delimiter) {
@@ -67,6 +67,23 @@ std::ostream& operator<<(std::ostream& os, const Person& person) {
     return os;
 }
 
- std::istream& operator>>(std::istream& is, Person& person) {
+ std::istream& operator>>(std::istream& in, Person& person) {
+    char delim1{}, delim2{}, delim3{}, delim4{};
+    person.name_ = getStringToChar(in, Person::formatDelimiter);
+    in >> delim1;
+    person.surname_ = getStringToChar(in, Person::formatDelimiter);
+    in >> delim2;
+    person.address_ = getStringToChar(in, Person::formatDelimiter);
+    in >> delim3;
+    person.pesel_ = getStringToChar(in, Person::formatDelimiter);
+    in >> delim4;
+    person.gender_ = getStringToChar(in, Person::formatDelimiter);
 
+    if (delim1 != Person::formatDelimiter ||
+        delim2 != Person::formatDelimiter ||
+        delim3 != Person::formatDelimiter ||
+        delim4 != Person::formatDelimiter ) {
+            in.clear(std::ios_base::failbit);
+        }
+    return in;
  }

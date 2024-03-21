@@ -38,4 +38,4 @@ class Person {
         friend std::istream& operator>>(std::istream& is, Person&);
 };
 
-char getStringToChar(std::istream& is, char delimeter);
+std::string getStringToChar(std::istream&, char delimeter);
