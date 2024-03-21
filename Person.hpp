@@ -32,7 +32,7 @@ class Person {
         std::string getPesel() const;
         std::string getGender() const;
 
-        virtual void display() const = 0;
+        // virtual void display() const = 0;
 
         friend std::ostream& operator<<(std::ostream& os, const Person&);
         friend std::istream& operator>>(std::istream& is, Person&);
