@@ -1,13 +1,16 @@
 #pragma once
 
+
+#include <array>
+#include <functional>
 #include <iostream>
-#incldue <stdio.h>
+// #include <stdio.h>
 
 #include "Command.hpp"
-#include "University.hpp"
+#include "../University.hpp"
 
 class MysqlDb : public Command {
-
+public:
     MysqlDb() = default;
 
     void operator()(University& university) override {

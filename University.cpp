@@ -9,7 +9,7 @@ const std::vector<std::unique_ptr<Person>>& University::getVector() const {
     return university_;
 }
 
-void University::displayBase() {
+void University::displayBase(std::ostream& os) {
     for (const auto& person : university_) {
         person->display();
     }
@@ -79,18 +79,18 @@ void University::sortBySurname() {
                 });
 }
 
-std::optional<double> getSalaryIfIs(const std::unique_ptr<Person>& person) {
+std::optional<double> University::getSalaryIfIs(const std::unique_ptr<Person>& person) {
     if (auto* employee = dynamic_cast<Employee*>(person.get())) {
         return employee->getSalary();
     }
 
-    return {};
+    return std::nullopt;
 }
 
 void University::sortBySalary() {
     std::sort(university_.begin(), university_.end(),
-                [](const std::unique_ptr<Person>& lhs, const std::unique_ptr<Person>& rhs) {
-                    return getSalaryIfIs(lhs).value_or(0.0) > getSalaryIfIs(rhs).value_or(0.0) || (getSalaryIfIs(lhs).value_or(0.0) == getSalaryIfIs(rhs).value_or(0.0) && lhs->getSurname() < rhs->getSurname());
+                [&](const std::unique_ptr<Person>& lhs, const std::unique_ptr<Person>& rhs) {
+                    return getSalaryIfIs(lhs).value_or(0.0) > getSalaryIfIs(rhs).value_or(0.0); // || (getSalaryIfIs(lhs).value_or(0.0) == getSalaryIfIs(rhs).value_or(0.0) && lhs->getSurname() < rhs->getSurname());
                 });
 }
 
@@ -180,13 +180,15 @@ void University::importDatabase(const std::string& fileName) {
             }
             getline(Database, element, '\n');
             rowLine[6] = element;
-            if (rowLine[0] == "7Student") {
-                addStudent(rowLine[1], rowLine[2], rowLine[3], rowLine[4], rowLine[5], std::stoi(rowLine[6]));
-            }
+            // if (rowLine[0] == "7Student") {
+            //     addStudent(rowLine[1], rowLine[2], rowLine[3], rowLine[4], rowLine[5], std::stoi(rowLine[6]));
+            // }
             if (rowLine[0] == "8Employee") {
                 addEmployee(rowLine[1], rowLine[2], rowLine[3], rowLine[4], rowLine[5], std::stod(rowLine[6]));
             }
+
         }
+        displayBase();
         Database.close();
     } else
         std::cout << "Unable to open file";
