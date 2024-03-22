@@ -1,6 +1,7 @@
 #pragma once 
 
 #include <memory>
+#include <mysql/mysql.h>
 #include <optional>
 #include <string>
 #include <vector>
@@ -8,12 +9,20 @@
 #include "Employee.hpp"
 #include  "Student.hpp"
 
-
-constexpr auto peselSize = 11u;
+namespace {
+    constexpr auto peselSize = 11u;
+    constexpr char host []= "localhost";
+    constexpr char user [] = "trump";
+    constexpr char password []= "Duda1234_5";
+    // constexpr char database[] = "university";
+    constexpr  int port = 3306;
+}
 
 class University {
+    
 private:
     std::vector<std::unique_ptr<Person>> university_ = {};
+    void exportPeople();
 public:
     std::optional<double> getSalaryIfIs(const std::unique_ptr<Person>& person);
     University() = default;
@@ -36,8 +45,7 @@ public:
     void removeByIndexNumber(size_t);
     void removeByPesel(const std::string&);
     void modifySalary(double, const std::string&);
-
-
-    void importMysql(const std::string&);
+    
+    // void importMysql(const std::string&);
     void exportMysql(const std::string&);
 };

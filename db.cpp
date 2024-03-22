@@ -8,6 +8,7 @@
 #include "Remove.hpp"
 #include "ImportExport.hpp"
 #include "Exit.hpp"
+#include "MysqlDb.hpp"
 
 #include <iostream>
 #include <map>
@@ -54,5 +55,6 @@ void Db::init() {
     commands_["5"] = (std::make_unique<Find>());
     commands_["6"] = (std::make_unique<Remove>());
     commands_["7"] = (std::make_unique<ImportExport>());
+    commands_["8"] = (std::make_unique<MysqlDb>());
     commands_["q"] = (std::make_unique<Exit>(dbOn_));
 }
