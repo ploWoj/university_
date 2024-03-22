@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "Employee.hpp"
-#include  "Student.hpp"
+#include "Student.hpp"
 
 namespace {
     constexpr auto peselSize = 11u;
@@ -22,7 +22,6 @@ class University {
     
 private:
     std::vector<std::unique_ptr<Person>> university_ = {};
-    void exportPeople();
 public:
     std::optional<double> getSalaryIfIs(const std::unique_ptr<Person>& person);
     University() = default;
@@ -46,6 +45,6 @@ public:
     void removeByPesel(const std::string&);
     void modifySalary(double, const std::string&);
     
-    // void importMysql(const std::string&);
+    void importMysql(const std::string&);
     void exportMysql(const std::string&);
 };

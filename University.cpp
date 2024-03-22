@@ -253,34 +253,38 @@ void University::importDatabase(const std::string &fileName)
 }
 
 bool deleteAllRecords(MYSQL *mysql, const std::string &tableName)
-{   
+{
 
-    if (mysql_ping(mysql)) {
+    if (mysql_ping(mysql))
+    {
         std::cerr << "ERROR: mysql lost connection: " << mysql_error(mysql) << '\n';
         return false;
     }
 
-    MYSQL_RES* result;
+    MYSQL_RES *result;
     MYSQL_ROW row;
 
-    if (mysql_query(mysql, "SHOW TABLES")) {
+    if (mysql_query(mysql, "SHOW TABLES"))
+    {
         std::cerr << "Error: mysql_query failed! " << mysql_error(mysql) << std::endl;
         return false;
     }
-    
+
     result = mysql_store_result(mysql);
-    if (!result) {
+    if (!result)
+    {
         std::cout << "ERROR: " << mysql_error(mysql) << '\n';
         return false;
     }
 
-    char* newTableName;
-    
-    if ((row = mysql_fetch_row(result)) != nullptr) {
+    char *newTableName;
+
+    if ((row = mysql_fetch_row(result)) != nullptr)
+    {
         newTableName = *row;
     }
 
-    std::string query = "TRUNCATE TABLE" + std::string(newTableName);
+    std::string query = "TRUNCATE TABLE " + std::string(newTableName);
 
     if (mysql_query(mysql, query.c_str()))
     {
@@ -301,16 +305,17 @@ void University::exportMysql(const std::string &databaseName)
         std::cout << "ERROR: Mysql object could not be created\n";
         return;
     }
-
+    
     if (!mysql_real_connect(sql, host, user, password, databaseName.c_str(), port, NULL, 0))
     {
         std::cout << "ERROR: some database info is wrong to do not exists. \n"
                   << mysql_error(sql) << '\n';
         mysql_close(sql);
+        return;
     }
 
-    if (!deleteAllRecords(sql, "university.people")) {
-        std::cout << "Dupa\n\n";
+    if (!deleteAllRecords(sql, "university.people"))
+    {
         return;
     }
 
@@ -324,9 +329,9 @@ void University::exportMysql(const std::string &databaseName)
     double salary{};
 
     std::cout << "Logged in. \n";
-    for (auto &person_ptr : university_)
+    for (auto& person_ptr : university_)
     {
-        posesion = typeid(person_ptr).name();
+        posesion = typeid(*person_ptr).name();
         name = person_ptr->getName();
         surname = person_ptr->getSurname();
         address = person_ptr->getAddress();
@@ -335,9 +340,11 @@ void University::exportMysql(const std::string &databaseName)
         if (auto student_ptr = dynamic_cast<Student*>(person_ptr.get()))
         {
             indexNumber = student_ptr->getIndex();
+            salary = 0;
         }
         else if (auto employee_ptr = dynamic_cast<Employee*>((person_ptr.get())))
         {
+            indexNumber = 0;
             salary = employee_ptr->getSalary();
         }
         std::string query = "INSERT INTO people (posesion, name, surname, address, pesel, gender, indexNumber, salary) VALUES ('";
@@ -372,3 +379,47 @@ void University::exportMysql(const std::string &databaseName)
     std::cout << "\n Info added correctly\n";
     mysql_close(sql);
 }
+
+void University::importMysql(const std::string& databaseName) {
+    MYSQL *sql = mysql_init(NULL);
+
+    if (!sql)
+    {
+        std::cout << "ERROR: Mysql object could not be created\n";
+        return;
+    }
+    
+    if (!mysql_real_connect(sql, host, user, password, databaseName.c_str(), port, NULL, 0))
+    {
+        std::cout << "ERROR: some database info is wrong to do not exists. \n"
+                  << mysql_error(sql) << '\n';
+        mysql_close(sql);
+    }
+
+    MYSQL_RES *result;
+
+    if (mysql_query(sql, "SELECT * FROM university.people"))  {
+        std::cout << "ERROR: " << mysql_error(sql) << '\n';
+        mysql_close(sql);
+    }
+    
+    result = mysql_store_result(sql);
+
+    if (!result) {
+        std::cerr << "ERROR: " << mysql_error(sql) << '\n';
+        mysql_close(sql);
+    }
+
+    int num_fields = mysql_num_fields(result);
+    MYSQL_ROW row;
+
+    while((row = mysql_fetch_row(result))) {
+        for (int i = 0; i < num_fields; ++i) {
+            std::cout << row[i] << " ";
+        }
+        std::cout << '\n';
+    }
+
+    mysql_free_result(result);
+    mysql_close(sql);
+} 

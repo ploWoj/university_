@@ -20,7 +20,7 @@ public:
             {"1-Import-Mysql", [&]() { std::cout << "IMPORT : Give database name : ";
                                        std::string database;
                                        std::cin >> database;
-                                    //    university.importMysql(database);
+                                       university.importMysql(database);
                                        return;}},
             {"2-Export-Mysql", [&]() { std::cout << " EXPORT : Give database name : ";
                                        std::string database;
