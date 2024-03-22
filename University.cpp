@@ -29,7 +29,7 @@ void University::addStudent() {
     university_.emplace_back(std::make_unique<Student>());
 }
 
-void University::addStudent(std::string name, std::string surname, std::string address, std::string pesel, std::string gender, size_t indexNumber) {
+void University::addStudent(const std::string& name, const std::string& surname, const std::string& address, const std::string& pesel, const std::string& gender, size_t indexNumber) {
     if (!findByPesel(pesel)) {
         university_.emplace_back(std::make_unique<Student>(name, surname, address, pesel, gender, indexNumber));
     }
@@ -39,8 +39,8 @@ void University::addEmployee() {
     university_.emplace_back(std::make_unique<Employee>());
 }
 
-void University::addEmployee(std::string name, std::string surname, std::string address, std::string pesel, std::string gender, double salary) {
-    if (findByPesel(pesel)) {
+void University::addEmployee(const std::string& name, const std::string& surname, const std::string& address, const std::string& pesel, const std::string& gender, double salary) {
+    if (!findByPesel(pesel)) {
         university_.emplace_back(std::make_unique<Employee>(name, surname, address, pesel,gender, salary));
     }
 }
@@ -190,15 +190,14 @@ void University::importDatabase(const std::string& fileName) {
             }
             getline(Database, element, '\n');
             rowLine[6] = element;
-            // if (rowLine[0] == "7Student") {
-            //     addStudent(rowLine[1], rowLine[2], rowLine[3], rowLine[4], rowLine[5], std::stoi(rowLine[6]));
-            // }
+            if (rowLine[0] == "7Student") {
+                addStudent(rowLine[1], rowLine[2], rowLine[3], rowLine[4], rowLine[5], std::stoi(rowLine[6]));
+            }
             if (rowLine[0] == "8Employee") {
                 addEmployee(rowLine[1], rowLine[2], rowLine[3], rowLine[4], rowLine[5], std::stod(rowLine[6]));
             }
 
         }
-        displayBase();
         Database.close();
     } else
         std::cout << "Unable to open file";

@@ -25,7 +25,9 @@ std::ostream& operator<<(std::ostream& os, const Employee& employee) {
        << employee.pesel_ << Person::formatDelimiter
        << employee.gender_ << Person::formatDelimiter
        << employee.salary_ << Person::formatDelimiter;
+    return os;
 }
+
 std::istream& operator>>(std::istream& in, Employee& employee) {
     char delim{};
     Person person{};

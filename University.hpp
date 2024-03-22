@@ -22,9 +22,9 @@ public:
     const std::vector<std::unique_ptr<Person>>& getVector() const;
     void displayBase(std::ostream& os = std::cout);
     void addStudent();
-    void addStudent(std::string, std::string, std::string, std::string, std::string, size_t);
+    void addStudent(const std::string&, const std::string&, const std::string&, const std::string&, const std::string&, size_t);
     void addEmployee();
-    void addEmployee(std::string, std::string, std::string, std::string, std::string, double);
+    void addEmployee(const std::string&, const std::string&, const std::string&, const std::string&, const std::string&, double);
     Person* findBySurname(const std::string&);
     Person* findByPesel(const std::string&);
     void sortByPesel();
