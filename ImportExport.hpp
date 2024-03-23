@@ -65,6 +65,6 @@ public:
     }
 
     void getName() const override {
-        std::cout << "Import/Export\n";
+        std::cout << "ReadTo/LoadFromFile\n";
     }
 };

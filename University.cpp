@@ -292,13 +292,18 @@ bool deleteAllRecords(MYSQL *mysql, const std::string &tableName)
         return false;
     }
 
-    std::cout << "All records deleted from table: " << tableName << std::endl;
+    std::cout << "All records deleted from table: " << tableName << "\n";
     mysql_free_result(result);
     return true;
 }
 
 void University::exportMysql(const std::string &databaseName)
 {
+    if (university_.empty()) {
+        std::cout << "ERROR: there is no rocord to export.\n";
+        return;
+    }
+    
     MYSQL *sql = mysql_init(NULL);
     if (!sql)
     {
@@ -330,7 +335,8 @@ void University::exportMysql(const std::string &databaseName)
 
     std::cout << "Logged in. \n";
     for (auto& person_ptr : university_)
-    {
+    {   
+        std::cout << typeid(*person_ptr).name() << '\n';
         posesion = typeid(*person_ptr).name();
         name = person_ptr->getName();
         surname = person_ptr->getSurname();
@@ -344,27 +350,19 @@ void University::exportMysql(const std::string &databaseName)
         }
         else if (auto employee_ptr = dynamic_cast<Employee*>((person_ptr.get())))
         {
-            indexNumber = 0;
             salary = employee_ptr->getSalary();
+            indexNumber = 0;
         }
         std::string query = "INSERT INTO people (posesion, name, surname, address, pesel, gender, indexNumber, salary) VALUES ('";
-        query += posesion;
-        query += "', '";
-        query += name;
-        query += "', '";
-        query += surname;
-        query += "', '";
-        query += address;
-        query += "', '";
-        query += pesel;
-        query += "', '";
-        query += gender;
-        query += "', ";
-        query += std::to_string(indexNumber);
-        query += ", ";
-        query += std::to_string(salary);
-        query += ")";
-
+        query += posesion + "', '";
+        query += name + "', '";
+        query += surname + "', '";
+        query += address + "', '";
+        query += pesel + "', '";
+        query += gender  + "', '"; 
+        query += std::to_string(indexNumber) + "', '";
+        query += std::to_string(salary) + "')";
+        
         if (mysql_ping(sql))
         {
             std::cout << "ERROR: imposible to connect. " << mysql_error(sql) << '\n';
@@ -385,35 +383,51 @@ void University::importMysql(const std::string& databaseName) {
 
     if (!sql)
     {
-        std::cout << "ERROR: Mysql object could not be created\n";
+        std::cout << "ERROR: Mysql object could not be created.\nn";
         return;
     }
     
     if (!mysql_real_connect(sql, host, user, password, databaseName.c_str(), port, NULL, 0))
     {
-        std::cout << "ERROR: some database info is wrong to do not exists. \n"
-                  << mysql_error(sql) << '\n';
+        std::cout << "ERROR: some database info is wrong to do not exists. "
+                  << mysql_error(sql) << "\n\n";
         mysql_close(sql);
+        return;
     }
 
     MYSQL_RES *result;
-
+    
     if (mysql_query(sql, "SELECT * FROM university.people"))  {
-        std::cout << "ERROR: " << mysql_error(sql) << '\n';
+        std::cout << "ERROR: " << mysql_error(sql) << "\n\n";
         mysql_close(sql);
+        return;
     }
     
     result = mysql_store_result(sql);
-
+    
     if (!result) {
-        std::cerr << "ERROR: " << mysql_error(sql) << '\n';
+        std::cerr << "ERROR: " << mysql_error(sql) << "\n\n";
         mysql_close(sql);
+        return;
     }
 
     int num_fields = mysql_num_fields(result);
-    MYSQL_ROW row;
-
-    while((row = mysql_fetch_row(result))) {
+    MYSQL_ROW row = mysql_fetch_row(result);
+    if (!row) {
+        std::cout << "ERROR: database is empty\n\n";
+        mysql_free_result(result);
+        mysql_close(sql);
+        return;
+    }
+    
+    while(row) {
+        std::string person_ptr(row[0]);
+        if (person_ptr == "7Student" ) {
+                addStudent(row[1], row[2], row[3], row[4], row[5], std::stoi(row[6]));
+        }
+        if (person_ptr == "8Employee") {
+                addEmployee(row[1], row[2], row[3], row[4], row[5], std::stod(row[7]));
+        }
         for (int i = 0; i < num_fields; ++i) {
             std::cout << row[i] << " ";
         }
@@ -422,4 +436,5 @@ void University::importMysql(const std::string& databaseName) {
 
     mysql_free_result(result);
     mysql_close(sql);
+    std::cout << '\n';
 } 

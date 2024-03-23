@@ -20,7 +20,7 @@ public:
 
         for (size_t i = 0; i < data.size(); ++i) {
             std::cout << data_type[i] << '\n';
-            std::cin >> str;
+            std::getline(std::cin, str);
             data[i] = str;
             str = "";
         }

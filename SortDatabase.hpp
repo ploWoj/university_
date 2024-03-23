@@ -53,10 +53,6 @@ public:
             if (option == sortOptions.size()) {
                 break;
             }
-            
-            if (option == sortOptions.size()) {
-                break;
-            }
             option = -1;
         }
     }
