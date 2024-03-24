@@ -20,6 +20,8 @@ Student::Student(std::string&& name,
 
 Student::Student(const Person& person, size_t indexNumber) : Person(person), indexNumber_(indexNumber) {}
 
+Student::Student(Person&& person, size_t indexNumber) : Person(std::move(person)), indexNumber_(indexNumber) {}
+
 void Student::setIndex(size_t indexNumber) {
     indexNumber_ = indexNumber;
 }

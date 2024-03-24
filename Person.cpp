@@ -13,7 +13,7 @@ std::string getStringToChar(std::istream& in, char delimiter) {
     return temp;
 }
 
-Person::Person(sconst std::string& name, 
+Person::Person(const std::string& name, 
                const std::string& surname, 
                const std::string& address, 
                const std::string& pesel, 
@@ -22,7 +22,11 @@ Person::Person(sconst std::string& name,
           surname_(surname), 
           address_(address), 
           pesel_(pesel), 
-          gender_(gender) {}
+          gender_(gender) {
+            if (!Pesel::validatePesel(pesel_)) {
+                throw std::runtime_error("not a valid pesel");
+            }
+          }
 
 Person::Person(std::string&& name, 
                std::string&& surname, 
@@ -33,7 +37,11 @@ Person::Person(std::string&& name,
          surname_(std::move(surname)), 
          address_(std::move(address)), 
          pesel_(std::move(pesel)), 
-         gender_(std::move(gender)) {} 
+         gender_(std::move(gender)) {
+            if (!Pesel::validatePesel(pesel_)) {
+                throw std::runtime_error("not a valid pesel");
+            }
+         } 
 
 void Person::setName(const std::string& name) {
     name_ = name;

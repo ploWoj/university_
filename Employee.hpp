@@ -30,6 +30,7 @@ public:
     Employee& operator=(Employee&&) = default;
 
     Employee(const Person& person, double salary);
+    Employee(Person&& person, double salary);
     ~Employee() = default;
 
     [[nodiscard]] double getSalary() const;

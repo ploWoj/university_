@@ -17,14 +17,24 @@ public:
         std::cout <<"......................................................................................\n";
         int option;
         std::array<std::pair<std::string, std::function<void()>>, 3> mysqlOptoins {{
-            {"1-Import-Mysql", [&]() { std::cout << "IMPORT : Give database name : ";
+            {"1-Import-from-Mysql", [&]() { std::cout << "IMPORT : Give database name : ";
                                        std::string database;
                                        std::cin >> database;
                                        university.importMysql(database);
                                        return;}},
-            {"2-Export-Mysql", [&]() { std::cout << " EXPORT : Give database name : ";
+            {"2-Export-to-Mysql", [&]() { std::cout << " EXPORT : Give database name : ";
                                        std::string database;
                                        std::cin >> database;
+                                       do{
+                                            std::cout << "If you continue, you will erase current database ( y/n ): \n";
+                                            char c;
+                                            std::cin >> c;
+                                            if (c == 'n') {
+                                                option += 1;
+                                                break;
+                                            }
+                                            if (c == 'y') { break; }
+                                        } while (true);
                                        university.exportMysql(database);
                                        return; }},
             {"3-back-to-main-manu", [&]() { do
@@ -43,7 +53,7 @@ public:
         }};
 
         while(true) {
-            std::cout << "Import Mysql/ Export Mysql Options : \n";
+            std::cout << "Import from Mysql / Export to Mysql Options : \n";
             for (const auto& [key,value] : mysqlOptoins) {
                 std::cout << key << '\n';
             }
@@ -69,7 +79,7 @@ public:
     }
 
     void getName() const override {
-        std::cout << "MysqlDb\n";
+        std::cout << "Import from/ Export to Msql\n";
     }
 
 };

@@ -1,5 +1,7 @@
 #include "Employee.hpp"
 
+#include <utility>
+
 Employee::Employee(const std::string& name,
                    const  std::string& surname, 
                    const std::string& address, 
@@ -15,6 +17,10 @@ Employee::Employee(std::string&& name,
              std::string&& gender,
              double salary) 
         : Person(std::move(name), std::move(surname), std::move(address), std::move(pesel), std::move(gender)), salary_(salary) {}
+
+Employee::Employee(const Person& person, double salary) : Person(person), salary_(salary) {}
+
+Employee::Employee(Person&& person, double salary) : Person(std::move(person)), salary_(salary) {};
 
 void Employee::setSalray(const double& salary) {
     salary_ = salary;

@@ -31,29 +31,65 @@ void University::displayBase(std::ostream &out)
     }
 }
 
-void University::addStudent()
+void University::addStudent(const Student& student)
 {
-    university_.emplace_back(std::make_unique<Student>());
+    try
+    {
+        /* code */
+        university_.emplace_back(std::make_unique<Student>(student));
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    
 }
 
 void University::addStudent(const std::string &name, const std::string &surname, const std::string &address, const std::string &pesel, const std::string &gender, size_t indexNumber)
 {
     if (!findByPesel(pesel))
-    {
-        university_.emplace_back(std::make_unique<Student>(name, surname, address, pesel, gender, indexNumber));
+    {   
+        try
+        {
+            /* code */
+            university_.emplace_back(std::make_unique<Student>(name, surname, address, pesel, gender, indexNumber));
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+        
     }
 }
 
-void University::addEmployee()
-{
-    university_.emplace_back(std::make_unique<Employee>());
+void University::addEmployee(const Employee& employee)
+{   
+    try
+    {
+        /* code */
+        university_.emplace_back(std::make_unique<Employee>(employee));
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    
 }
 
 void University::addEmployee(const std::string &name, const std::string &surname, const std::string &address, const std::string &pesel, const std::string &gender, double salary)
 {
     if (!findByPesel(pesel))
-    {
-        university_.emplace_back(std::make_unique<Employee>(name, surname, address, pesel, gender, salary));
+    {   
+        try
+        {
+            /* code */
+            university_.emplace_back(std::make_unique<Employee>(name, surname, address, pesel, gender, salary));
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+        
     }
 }
 
@@ -95,9 +131,11 @@ Person *University::findByPesel(const std::string &pesel)
 
 void University::sortByPesel()
 {
+    std::cout << "Dupa\n";
     std::sort(university_.begin(), university_.end(),
               [](const std::unique_ptr<Person> &lhs, const std::unique_ptr<Person> &rhs)
               {
+                std::cout << "alg sort pesel\n " << lhs->getPesel() << " " << rhs->getPesel() << '\n';
                   return lhs->getPesel() > rhs->getPesel();
               });
 }
@@ -158,39 +196,39 @@ void University::removeByPesel(const std::string &pesel)
     }
 }
 
-bool University::validationByPesel(const std::string &pesel)
-{
-    if (pesel.size() != peselSize)
-    {
-        return false;
-    }
+// bool University::validationByPesel(const std::string &pesel)
+// {
+//     if (pesel.size() != peselSize)
+//     {
+//         return false;
+//     }
 
-    static constexpr std::array<size_t, 10> weightFactors{1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
+//     static constexpr std::array<size_t, 10> weightFactors{1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
 
-    size_t checkSum = 0;
-    size_t number = 0;
+//     size_t checkSum = 0;
+//     size_t number = 0;
 
-    for (size_t i = 0; i < weightFactors.size(); i++)
-    {
-        if (!std::isdigit(pesel[i]))
-        {
-            return false;
-        }
-        number = pesel[i] - '0';
-        checkSum += number * weightFactors[i];
-    }
+//     for (size_t i = 0; i < weightFactors.size(); i++)
+//     {
+//         if (!std::isdigit(pesel[i]))
+//         {
+//             return false;
+//         }
+//         number = pesel[i] - '0';
+//         checkSum += number * weightFactors[i];
+//     }
 
-    checkSum = checkSum % weightFactors.size();
+//     checkSum = checkSum % weightFactors.size();
 
-    if (checkSum != 0)
-    {
-        checkSum = weightFactors.size() - checkSum;
-    }
+//     if (checkSum != 0)
+//     {
+//         checkSum = weightFactors.size() - checkSum;
+//     }
 
-    size_t lastNumber = (pesel.back() - '0');
+//     size_t lastNumber = (pesel.back() - '0');
 
-    return checkSum == lastNumber;
-}
+//     return checkSum == lastNumber;
+// }
 
 void University::exportDatabase(const std::string &fileName)
 {
@@ -200,19 +238,25 @@ void University::exportDatabase(const std::string &fileName)
     {
         for (auto &itPerson : university_)
         {
-            Database << typeid(*itPerson).name() << ", "
-                     << itPerson->getName() << ", "
-                     << itPerson->getSurname() << ", "
-                     << itPerson->getAddress() << ", "
-                     << itPerson->getPesel() << ", "
-                     << itPerson->getGender() << ", ";
             if (auto itStudent = dynamic_cast<Student *>(itPerson.get()))
             {
-                Database << itStudent->getIndex() << '\n';
+                Database << "Student" << ","
+                         << itStudent ->getName() << ","
+                         << itStudent ->getSurname() << ","
+                         << itStudent ->getAddress() << ","
+                         << itStudent ->getPesel() << ","
+                         << itStudent ->getGender() << ","
+                         << itStudent->getIndex() << '\n';
             }
             else if (auto itEmployee = dynamic_cast<Employee *>(itPerson.get()))
             {
-                Database << itEmployee->getSalary() << '\n';
+                Database << "Employee" << ","
+                         << itEmployee ->getName() << ","
+                         << itEmployee ->getSurname() << ","
+                         << itEmployee ->getAddress() << ","
+                         << itEmployee ->getPesel() << ","
+                         << itEmployee ->getGender() << ","
+                         << itEmployee->getSalary() << '\n';
             }
         }
         Database.close();
@@ -229,7 +273,7 @@ void University::importDatabase(const std::string &fileName)
     if (Database.is_open())
     {
         while (Database.peek() != EOF)
-        {
+        {   
             for (size_t i = 0; i < rowLine.size() - 1; i++)
             {
                 getline(Database, element, ',');
@@ -237,11 +281,11 @@ void University::importDatabase(const std::string &fileName)
             }
             getline(Database, element, '\n');
             rowLine[6] = element;
-            if (rowLine[0] == "7Student")
+            if (rowLine[0] == "Student")
             {
-                addStudent(rowLine[1], rowLine[2], rowLine[3], rowLine[4], rowLine[5], std::stoi(rowLine[6]));
+               addStudent(rowLine[1], rowLine[2], rowLine[3], rowLine[4], rowLine[5], std::stoi(rowLine[6]));
             }
-            if (rowLine[0] == "8Employee")
+            if (rowLine[0] == "Employee")
             {
                 addEmployee(rowLine[1], rowLine[2], rowLine[3], rowLine[4], rowLine[5], std::stod(rowLine[6]));
             }
@@ -336,20 +380,21 @@ void University::exportMysql(const std::string &databaseName)
     std::cout << "Logged in. \n";
     for (auto& person_ptr : university_)
     {   
-        std::cout << typeid(*person_ptr).name() << '\n';
-        posesion = typeid(*person_ptr).name();
         name = person_ptr->getName();
         surname = person_ptr->getSurname();
         address = person_ptr->getAddress();
         pesel = person_ptr->getPesel();
         gender = person_ptr->getGender();
+
         if (auto student_ptr = dynamic_cast<Student*>(person_ptr.get()))
         {
+            posesion = "Student";
             indexNumber = student_ptr->getIndex();
             salary = 0;
         }
         else if (auto employee_ptr = dynamic_cast<Employee*>((person_ptr.get())))
         {
+            posesion = "Employee";
             salary = employee_ptr->getSalary();
             indexNumber = 0;
         }
@@ -379,6 +424,7 @@ void University::exportMysql(const std::string &databaseName)
 }
 
 void University::importMysql(const std::string& databaseName) {
+    
     MYSQL *sql = mysql_init(NULL);
 
     if (!sql)
@@ -412,25 +458,17 @@ void University::importMysql(const std::string& databaseName) {
     }
 
     int num_fields = mysql_num_fields(result);
-    MYSQL_ROW row = mysql_fetch_row(result);
-    if (!row) {
-        std::cout << "ERROR: database is empty\n\n";
-        mysql_free_result(result);
-        mysql_close(sql);
-        return;
-    }
+    MYSQL_ROW row;
     
-    while(row) {
+    while(row = mysql_fetch_row(result)) {
         std::string person_ptr(row[0]);
-        if (person_ptr == "7Student" ) {
-                addStudent(row[1], row[2], row[3], row[4], row[5], std::stoi(row[6]));
+        if (person_ptr == "Student" ) {
+            addStudent(row[1], row[2], row[3], row[4], row[5], std::stoi(row[6]));
         }
-        if (person_ptr == "8Employee") {
-                addEmployee(row[1], row[2], row[3], row[4], row[5], std::stod(row[7]));
+        if (person_ptr == "Employee") {
+            addEmployee(row[1], row[2], row[3], row[4], row[5], std::stod(row[6]));
         }
-        for (int i = 0; i < num_fields; ++i) {
-            std::cout << row[i] << " ";
-        }
+        
         std::cout << '\n';
     }
 
