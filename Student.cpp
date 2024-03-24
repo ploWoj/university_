@@ -1,7 +1,22 @@
+#include <utility>
+
 #include "Student.hpp"
 
-Student::Student(std::string name, std::string surname, std::string address, std::string pesel, std::string gender, size_t indexNumber) 
+Student::Student(const std::string& name, 
+                 const std::string& surname, 
+                 const std::string& address, 
+                 const std::string& pesel, 
+                 const std::string& gender, 
+                 size_t indexNumber) 
     : Person(name, surname, address, pesel, gender), indexNumber_(indexNumber) {}
+
+Student::Student(std::string&& name,
+                std::string&& surname,
+                std::string&& address,
+                std::string&& pesel,
+                std::string&& gender,
+                size_t indexNumber)
+            : Person(std::move(name), std::move(surname), std::move(address), std::move(pesel), std::move(gender)), indexNumber_(indexNumber) {}
 
 Student::Student(const Person& person, size_t indexNumber) : Person(person), indexNumber_(indexNumber) {}
 
@@ -12,11 +27,6 @@ void Student::setIndex(size_t indexNumber) {
 size_t Student::getIndex() const {
     return indexNumber_;
 }
-
-// void Student::display() const {
-//     std::cout << name_ << ", " << surname_ << ", " << address_ << ", " <<
-//     pesel_ << ", " << gender_ << ", " << indexNumber_ << '\n';
-// }
 
 std::ostream& operator<<(std::ostream& out, const Student& student) {
     out << student.name_ << Person::formatDelimiter 
