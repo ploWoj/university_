@@ -87,3 +87,11 @@ std::ostream& operator<<(std::ostream& os, const Person& person) {
         }
     return in;
  }
+
+ bool Person::operator==(const Person& person) const {
+            return this->name_ == person.name_ && 
+                   this->surname_ == person.surname_ && 
+                   this->address_ == person.address_ &&
+                   this->pesel_ == person.pesel_ &&
+                   this->gender_ == person.gender_;
+        }
