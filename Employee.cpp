@@ -24,11 +24,6 @@ double Employee::getSalary() const {
     return salary_;
 }
 
-// void Employee::display() const {
-//     std::cout << name_ << ", " << surname_ << ", " << address_ << ", " <<
-//     pesel_ << ", " << gender_ << ", " << salary_ << '\n';
-// }
-
 std::ostream& operator<<(std::ostream& os, const Employee& employee) {
     os << employee.name_ << Person::formatDelimiter 
        << employee.surname_ << Person::formatDelimiter

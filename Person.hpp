@@ -4,7 +4,11 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include <vector>
+
+namespace Pesel {
+    constexpr auto peselSize = 11u;
+    bool validatePesel(const std::string&);
+}
 
 class Person {
     protected:

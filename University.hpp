@@ -10,7 +10,7 @@
 #include "Student.hpp"
 
 namespace {
-    constexpr auto peselSize = 11u;
+    // constexpr auto peselSize = 11u;
     constexpr char host []= "localhost";
     constexpr char user [] = "trump";
     constexpr char password []= "Duda1234_5";
@@ -38,7 +38,7 @@ public:
     void sortByPesel();
     void sortBySurname();    
     void sortBySalary();
-    bool validationByPesel(const std::string&);
+    // bool validationByPesel(const std::string&);
     void exportDatabase(const std::string&);
     void importDatabase(const std::string&);
     void removeByIndexNumber(size_t);

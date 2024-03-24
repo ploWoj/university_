@@ -13,8 +13,27 @@ std::string getStringToChar(std::istream& in, char delimiter) {
     return temp;
 }
 
-Person::Person(std::string name, std::string surname, std::string address, std::string pesel, std::string gender)
-        : name_(name), surname_(surname), address_(address), pesel_(pesel), gender_(gender) {}
+Person::Person(sconst std::string& name, 
+               const std::string& surname, 
+               const std::string& address, 
+               const std::string& pesel, 
+               const std::string& gender)
+        : name_(name), 
+          surname_(surname), 
+          address_(address), 
+          pesel_(pesel), 
+          gender_(gender) {}
+
+Person::Person(std::string&& name, 
+               std::string&& surname, 
+               std::string&& address, 
+               std::string&& pesel, 
+               std::string&& gender)
+        :name_(std::move(name)),
+         surname_(std::move(surname)), 
+         address_(std::move(address)), 
+         pesel_(std::move(pesel)), 
+         gender_(std::move(gender)) {} 
 
 void Person::setName(const std::string& name) {
     name_ = name;
@@ -56,11 +75,6 @@ std::string Person::getGender() const {
     return gender_;
 }
 
-// void Person::display() const {
-//     std::cout << name_ << ", " << surname_ << ", " << address_ << ", " <<
-//         pesel_ << ", " << gender_ << '\n';
-// }
-
 std::ostream& operator<<(std::ostream& os, const Person& person) {
     os << person.name_  << person.surname_  << person.address_ <<
          person.gender_ ;
@@ -95,3 +109,36 @@ std::ostream& operator<<(std::ostream& os, const Person& person) {
                    this->pesel_ == person.pesel_ &&
                    this->gender_ == person.gender_;
         }
+
+bool Pesel::validatePesel(const std::string& pesel) {
+    if (pesel.size() != Pesel::peselSize)
+    {
+        return false;
+    }
+
+    static constexpr std::array<size_t, 10> weightFactors{1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
+
+    size_t checkSum = 0;
+    size_t number = 0;
+
+    for (size_t i = 0; i < weightFactors.size(); i++)
+    {
+        if (!std::isdigit(pesel[i]))
+        {
+            return false;
+        }
+        number = pesel[i] - '0';
+        checkSum += number * weightFactors[i];
+    }
+
+    checkSum = checkSum % weightFactors.size();
+
+    if (checkSum != 0)
+    {
+        checkSum = weightFactors.size() - checkSum;
+    }
+
+    size_t lastNumber = (pesel.back() - '0');
+
+    return checkSum == lastNumber;
+}
