@@ -55,7 +55,7 @@ void printSettings(Person* person) {
         for (const auto& [key, value] : settings) {
             std::cout << key << '\n';
         }
-        int option;
+        size_t option;
         std::cout << "\nyour choice (number) : ";
         try
         {
@@ -81,7 +81,7 @@ public:
 
     void operator()(University& university) override {
         std::cout <<"......................................................................................\n";
-        int option{};
+        size_t option{};
 
         std::array<std::pair<std::string, std::function<void()>>, 3> findOptions {{
             {"1-find-by-Pesel", [&]() { std::cout << "Provide PESEL of the person you are looking for: ";
@@ -107,7 +107,6 @@ public:
             {"2-find-by-Surname", [&]() { 
                                         std::cout << "Provide surname of the person you are looking for: ";
                                         std::string surname;
-                                        // std::getline(std::cin, surname); 
                                         std::cin >> surname;
                                         auto person = university.findBySurname(surname);
                                         std::cout <<"......................................................................................\n";
@@ -120,7 +119,7 @@ public:
                                             std::cout <<"......................................................................................\n";
                                             printSettings(employee_ptr);
                                         } else {
-                                            std::cout << "There is on person with that surname\n";
+                                            std::cout << "There is no person with that surname\n";
                                         }
                                         std::cout <<"......................................................................................\n";
                                         std::getchar();

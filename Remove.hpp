@@ -13,7 +13,7 @@ public:
          std::cout <<"......................................................................................\n";
         getName();
         std::cout << '\n';
-        int option{};
+        size_t option{};
 
         std::array<std::pair<std::string, std::function<void()>>, 3> removeOptions {{
             {"1-remove-by-Pesel", [&]() { std::string pesel{};

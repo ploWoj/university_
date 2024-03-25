@@ -15,7 +15,7 @@ public:
 
     void operator()(University& university) override {
         std::cout <<"......................................................................................\n";
-        int option;
+        size_t option;
         std::array<std::pair<std::string, std::function<void()>>, 3> mysqlOptoins {{
             {"1-Import-from-Mysql", [&]() { std::cout << "IMPORT : Give database name : ";
                                        std::string database;

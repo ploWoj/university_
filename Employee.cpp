@@ -20,7 +20,7 @@ Employee::Employee(std::string &&name,
 
 Employee::Employee(const Person &person, double salary) : Person(person), salary_(salary) {}
 
-Employee::Employee(Person &&person, double salary) : Person(std::move(person)), salary_(salary){};
+Employee::Employee(Person &&person, double salary) : Person(std::move(person)), salary_(salary){}
 
 void Employee::setSalray(const double &salary)
 {

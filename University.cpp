@@ -436,10 +436,9 @@ void University::importMysql(const std::string &databaseName)
         return;
     }
 
-    int num_fields = mysql_num_fields(result);
     MYSQL_ROW row;
 
-    while (row = mysql_fetch_row(result))
+    while ((row = mysql_fetch_row(result)))
     {
         std::string person_ptr(row[0]);
         if (person_ptr == "Student")

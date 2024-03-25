@@ -8,7 +8,7 @@ public:
 
     void operator()(University& university) override {
         std::cout <<"......................................................................................\n";
-        int option;
+        size_t option;
 
         std::array<std::pair<std::string, std::function<void()>>, 4> sortOptions {{
             {"1-sort-by-Pasel", [&](){ university.sortByPesel();
