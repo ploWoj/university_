@@ -31,14 +31,15 @@ void University::displayBase(std::ostream &out)
     }
 }
 
-void University::addStudent(const Student& student)
+void University::addStudent(const Student &student)
 {
-    if (!findByPesel(student.getPesel())) {
+    if (!findByPesel(student.getPesel()))
+    {
         try
         {
             university_.emplace_back(std::make_unique<Student>(student));
         }
-        catch(const std::exception& e)
+        catch (const std::exception &e)
         {
             std::cerr << e.what() << '\n';
         }
@@ -48,27 +49,27 @@ void University::addStudent(const Student& student)
 void University::addStudent(const std::string &name, const std::string &surname, const std::string &address, const std::string &pesel, const std::string &gender, size_t indexNumber)
 {
     if (!findByPesel(pesel))
-    {   
+    {
         try
         {
             university_.emplace_back(std::make_unique<Student>(name, surname, address, pesel, gender, indexNumber));
         }
-        catch(const std::exception& e)
+        catch (const std::exception &e)
         {
             std::cerr << e.what() << '\n';
         }
-        
     }
 }
 
-void University::addEmployee(const Employee& employee)
-{   
-    if(!findByPesel(employee.getPesel ())) {
+void University::addEmployee(const Employee &employee)
+{
+    if (!findByPesel(employee.getPesel()))
+    {
         try
         {
             university_.emplace_back(std::make_unique<Employee>(employee));
         }
-        catch(const std::exception& e)
+        catch (const std::exception &e)
         {
             std::cerr << e.what() << '\n';
         }
@@ -78,12 +79,12 @@ void University::addEmployee(const Employee& employee)
 void University::addEmployee(const std::string &name, const std::string &surname, const std::string &address, const std::string &pesel, const std::string &gender, double salary)
 {
     if (!findByPesel(pesel))
-    {   
+    {
         try
         {
             university_.emplace_back(std::make_unique<Employee>(name, surname, address, pesel, gender, salary));
         }
-        catch(const std::exception& e)
+        catch (const std::exception &e)
         {
             std::cerr << e.what() << '\n';
         }
@@ -119,10 +120,9 @@ Person *University::findByPesel(const std::string &pesel)
 
     if (it == university_.end())
     {
-        std::cout << "Person with given pesel has already exists.\n";
         return nullptr;
     }
-
+    std::cout << "Person with given pesel " << pesel << " has already exists.\n";
     Person *person_ptr = it->get();
     return person_ptr;
 }
@@ -176,7 +176,9 @@ void University::removeByIndexNumber(size_t indexNumber)
                 university_.erase(university_.begin() + i);
                 std::cout << "Remove successfull\n";
                 break;
-            } else {
+            }
+            else
+            {
                 std::cout << "Given index number does not exists.\n";
             }
         }
@@ -193,10 +195,11 @@ void University::removeByPesel(const std::string &pesel)
     {
         university_.erase(find);
         std::cout << "Remove successful. \n";
-    } else {
+    }
+    else
+    {
         throw std::runtime_error("Given pesel does not exists.\n");
     }
-
 }
 
 void University::exportDatabase(const std::string &fileName)
@@ -209,22 +212,24 @@ void University::exportDatabase(const std::string &fileName)
         {
             if (auto itStudent = dynamic_cast<Student *>(itPerson.get()))
             {
-                Database << "Student" << ","
-                         << itStudent ->getName() << ","
-                         << itStudent ->getSurname() << ","
-                         << itStudent ->getAddress() << ","
-                         << itStudent ->getPesel() << ","
-                         << itStudent ->getGender() << ","
+                Database << "Student"
+                         << ","
+                         << itStudent->getName() << ","
+                         << itStudent->getSurname() << ","
+                         << itStudent->getAddress() << ","
+                         << itStudent->getPesel() << ","
+                         << itStudent->getGender() << ","
                          << itStudent->getIndex() << '\n';
             }
             else if (auto itEmployee = dynamic_cast<Employee *>(itPerson.get()))
             {
-                Database << "Employee" << ","
-                         << itEmployee ->getName() << ","
-                         << itEmployee ->getSurname() << ","
-                         << itEmployee ->getAddress() << ","
-                         << itEmployee ->getPesel() << ","
-                         << itEmployee ->getGender() << ","
+                Database << "Employee"
+                         << ","
+                         << itEmployee->getName() << ","
+                         << itEmployee->getSurname() << ","
+                         << itEmployee->getAddress() << ","
+                         << itEmployee->getPesel() << ","
+                         << itEmployee->getGender() << ","
                          << itEmployee->getSalary() << '\n';
             }
         }
@@ -242,7 +247,7 @@ void University::importDatabase(const std::string &fileName)
     if (Database.is_open())
     {
         while (Database.peek() != EOF)
-        {   
+        {
             for (size_t i = 0; i < rowLine.size() - 1; i++)
             {
                 getline(Database, element, ',');
@@ -252,7 +257,7 @@ void University::importDatabase(const std::string &fileName)
             rowLine[6] = element;
             if (rowLine[0] == "Student")
             {
-               addStudent(rowLine[1], rowLine[2], rowLine[3], rowLine[4], rowLine[5], std::stoi(rowLine[6]));
+                addStudent(rowLine[1], rowLine[2], rowLine[3], rowLine[4], rowLine[5], std::stoi(rowLine[6]));
             }
             if (rowLine[0] == "Employee")
             {
@@ -312,18 +317,19 @@ bool deleteAllRecords(MYSQL *mysql, const std::string &tableName)
 
 void University::exportMysql(const std::string &databaseName)
 {
-    if (university_.empty()) {
+    if (university_.empty())
+    {
         std::cout << "ERROR: there is no rocord to export.\n";
         return;
     }
-    
+
     MYSQL *sql = mysql_init(NULL);
     if (!sql)
     {
         std::cout << "ERROR: Mysql object could not be created\n";
         return;
     }
-    
+
     if (!mysql_real_connect(sql, host, user, password, databaseName.c_str(), port, NULL, 0))
     {
         std::cout << "ERROR: some database info is wrong to do not exists. \n"
@@ -347,21 +353,21 @@ void University::exportMysql(const std::string &databaseName)
     double salary{};
 
     std::cout << "Logged in. \n";
-    for (auto& person_ptr : university_)
-    {   
+    for (auto &person_ptr : university_)
+    {
         name = person_ptr->getName();
         surname = person_ptr->getSurname();
         address = person_ptr->getAddress();
         pesel = person_ptr->getPesel();
         gender = person_ptr->getGender();
 
-        if (auto student_ptr = dynamic_cast<Student*>(person_ptr.get()))
+        if (auto student_ptr = dynamic_cast<Student *>(person_ptr.get()))
         {
             posesion = "Student";
             indexNumber = student_ptr->getIndex();
             salary = 0;
         }
-        else if (auto employee_ptr = dynamic_cast<Employee*>((person_ptr.get())))
+        else if (auto employee_ptr = dynamic_cast<Employee *>((person_ptr.get())))
         {
             posesion = "Employee";
             salary = employee_ptr->getSalary();
@@ -373,10 +379,10 @@ void University::exportMysql(const std::string &databaseName)
         query += surname + "', '";
         query += address + "', '";
         query += pesel + "', '";
-        query += gender  + "', '"; 
+        query += gender + "', '";
         query += std::to_string(indexNumber) + "', '";
         query += std::to_string(salary) + "')";
-        
+
         if (mysql_ping(sql))
         {
             std::cout << "ERROR: imposible to connect. " << mysql_error(sql) << '\n';
@@ -392,8 +398,9 @@ void University::exportMysql(const std::string &databaseName)
     mysql_close(sql);
 }
 
-void University::importMysql(const std::string& databaseName) {
-    
+void University::importMysql(const std::string &databaseName)
+{
+
     MYSQL *sql = mysql_init(NULL);
 
     if (!sql)
@@ -401,7 +408,7 @@ void University::importMysql(const std::string& databaseName) {
         std::cout << "ERROR: Mysql object could not be created.\nn";
         return;
     }
-    
+
     if (!mysql_real_connect(sql, host, user, password, databaseName.c_str(), port, NULL, 0))
     {
         std::cout << "ERROR: some database info is wrong to do not exists. "
@@ -411,16 +418,19 @@ void University::importMysql(const std::string& databaseName) {
     }
 
     MYSQL_RES *result;
-    
-    if (mysql_query(sql, "SELECT * FROM university.people"))  {
+    std::string table = "SELECT * FROM " + std::string(databseTable);
+
+    if (mysql_query(sql, table.c_str()))
+    {
         std::cout << "ERROR: " << mysql_error(sql) << "\n\n";
         mysql_close(sql);
         return;
     }
-    
+
     result = mysql_store_result(sql);
-    
-    if (!result) {
+
+    if (!result)
+    {
         std::cerr << "ERROR: " << mysql_error(sql) << "\n\n";
         mysql_close(sql);
         return;
@@ -428,20 +438,21 @@ void University::importMysql(const std::string& databaseName) {
 
     int num_fields = mysql_num_fields(result);
     MYSQL_ROW row;
-    
-    while(row = mysql_fetch_row(result)) {
+
+    while (row = mysql_fetch_row(result))
+    {
         std::string person_ptr(row[0]);
-        if (person_ptr == "Student" ) {
+        if (person_ptr == "Student")
+        {
             addStudent(row[1], row[2], row[3], row[4], row[5], std::stoi(row[6]));
         }
-        if (person_ptr == "Employee") {
-            addEmployee(row[1], row[2], row[3], row[4], row[5], std::stod(row[6]));
+        if (person_ptr == "Employee")
+        {
+            addEmployee(row[1], row[2], row[3], row[4], row[5], std::stod(row[7]));
         }
-        
-        std::cout << '\n';
     }
 
     mysql_free_result(result);
     mysql_close(sql);
     std::cout << '\n';
-} 
+}

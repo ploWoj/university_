@@ -10,11 +10,10 @@
 #include "Student.hpp"
 
 namespace {
-    // constexpr auto peselSize = 11u;
+    constexpr char databseTable [] = "university.people";
     constexpr char host []= "localhost";
     constexpr char user [] = "trump";
     constexpr char password []= "Duda1234_5";
-    // constexpr char database[] = "university";
     constexpr  int port = 3306;
 }
 
