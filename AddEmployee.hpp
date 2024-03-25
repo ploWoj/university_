@@ -26,15 +26,8 @@ public:
             str.clear();
         }
         
-        try
-        {
-            university.addEmployee(data[0], data[1], data[2], data[3], data[4], std::stod(data[5]));;
-        }
-        catch(const std::exception& e)
-        {
-            std::cerr << e.what() << '\n';
-        }
-        
+        university.addEmployee(data[0], data[1], data[2], data[3], data[4], std::stod(data[5]));;
+
         std::cout << "......................................................................................\n";
         std::cout << "Done\n";
         getchar();

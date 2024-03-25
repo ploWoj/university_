@@ -1,5 +1,7 @@
 #pragma once
 
+#include <exception>
+
 #include "Command.hpp"
 #include "University.hpp"
 
@@ -16,7 +18,7 @@ public:
         std::array<std::pair<std::string, std::function<void()>>, 3> removeOptions {{
             {"1-remove-by-Pesel", [&]() { std::string pesel{};
                                           std::cout << "Give the pesel : ";
-                                          std::getline(std::cin, pesel);
+                                          std::cin >> pesel;
                                           university.removeByPesel(pesel);
                                           return;}},
             {"2-remove-by-IndexNumber", [&]() { size_t indexNr{};
@@ -50,9 +52,9 @@ public:
                 auto remove = removeOptions.at(option - 1).second;
                 remove();
             }
-            catch(...)
+            catch(const std::exception& e)
             {
-                std::cout << "Invalid input\n";
+                std::cerr << e.what() << '\n';
             }
             
             if (option == removeOptions.size()) {

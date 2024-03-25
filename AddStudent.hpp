@@ -25,15 +25,8 @@ public:
             data[i] = str;
             str.clear();
         }    
-
-        try
-        {
-            university.addStudent(data[0], data[1], data[2], data[3], data[4], std::stoi(data[5]));
-        }
-        catch(const std::exception& e)
-        {
-            std::cerr << e.what() << '\n';
-        }
+        
+        university.addStudent(data[0], data[1], data[2], data[3], data[4], std::stoi(data[5]));
         
         std::cout << "......................................................................................\n";
         std::cout << "Done\n";

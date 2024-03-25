@@ -119,6 +119,7 @@ Person *University::findByPesel(const std::string &pesel)
 
     if (it == university_.end())
     {
+        std::cout << "Person with given pesel has already exists.\n";
         return nullptr;
     }
 
@@ -128,11 +129,9 @@ Person *University::findByPesel(const std::string &pesel)
 
 void University::sortByPesel()
 {
-    std::cout << "Dupa\n";
     std::sort(university_.begin(), university_.end(),
               [](const std::unique_ptr<Person> &lhs, const std::unique_ptr<Person> &rhs)
               {
-                std::cout << "alg sort pesel\n " << lhs->getPesel() << " " << rhs->getPesel() << '\n';
                   return lhs->getPesel() > rhs->getPesel();
               });
 }
@@ -161,7 +160,7 @@ void University::sortBySalary()
     std::sort(university_.begin(), university_.end(),
               [&](const std::unique_ptr<Person> &lhs, const std::unique_ptr<Person> &rhs)
               {
-                  return getSalaryIfIs(lhs).value_or(0.0) > getSalaryIfIs(rhs).value_or(0.0); // || (getSalaryIfIs(lhs).value_or(0.0) == getSalaryIfIs(rhs).value_or(0.0) && lhs->getSurname() < rhs->getSurname());
+                  return getSalaryIfIs(lhs).value_or(0.0) > getSalaryIfIs(rhs).value_or(0.0) || (getSalaryIfIs(lhs).value_or(0.0) == getSalaryIfIs(rhs).value_or(0.0) && lhs->getSurname() < rhs->getSurname());
               });
 }
 
@@ -175,7 +174,10 @@ void University::removeByIndexNumber(size_t indexNumber)
             if (s->getIndex() == indexNumber)
             {
                 university_.erase(university_.begin() + i);
+                std::cout << "Remove successfull\n";
                 break;
+            } else {
+                std::cout << "Given index number does not exists.\n";
             }
         }
         i++;
@@ -190,42 +192,12 @@ void University::removeByPesel(const std::string &pesel)
     if (find != university_.end())
     {
         university_.erase(find);
+        std::cout << "Remove successful. \n";
+    } else {
+        throw std::runtime_error("Given pesel does not exists.\n");
     }
+
 }
-
-// bool University::validationByPesel(const std::string &pesel)
-// {
-//     if (pesel.size() != peselSize)
-//     {
-//         return false;
-//     }
-
-//     static constexpr std::array<size_t, 10> weightFactors{1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
-
-//     size_t checkSum = 0;
-//     size_t number = 0;
-
-//     for (size_t i = 0; i < weightFactors.size(); i++)
-//     {
-//         if (!std::isdigit(pesel[i]))
-//         {
-//             return false;
-//         }
-//         number = pesel[i] - '0';
-//         checkSum += number * weightFactors[i];
-//     }
-
-//     checkSum = checkSum % weightFactors.size();
-
-//     if (checkSum != 0)
-//     {
-//         checkSum = weightFactors.size() - checkSum;
-//     }
-
-//     size_t lastNumber = (pesel.back() - '0');
-
-//     return checkSum == lastNumber;
-// }
 
 void University::exportDatabase(const std::string &fileName)
 {
