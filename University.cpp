@@ -310,7 +310,7 @@ bool deleteAllRecords(MYSQL *mysql, const std::string &tableName)
         return false;
     }
 
-    std::cout << "All records deleted from table: " << tableName << "\n";
+    std::cout << "All records have been deleted from table: " << tableName << "\n";
     mysql_free_result(result);
     return true;
 }
@@ -352,7 +352,7 @@ void University::exportMysql(const std::string &databaseName)
     size_t indexNumber{};
     double salary{};
 
-    std::cout << "Logged in. \n";
+    
     for (auto &person_ptr : university_)
     {
         name = person_ptr->getName();
@@ -394,7 +394,7 @@ void University::exportMysql(const std::string &databaseName)
             std::getchar();
         }
     }
-    std::cout << "\n Info added correctly\n";
+    std::cout << "\n Data eported successfully. \n";
     mysql_close(sql);
 }
 
@@ -451,7 +451,7 @@ void University::importMysql(const std::string &databaseName)
             addEmployee(row[1], row[2], row[3], row[4], row[5], std::stod(row[7]));
         }
     }
-
+    std::cout << "\n Data imported successfully. \n";
     mysql_free_result(result);
     mysql_close(sql);
     std::cout << '\n';
