@@ -14,28 +14,16 @@ public:
         std::cout <<"......................................................................................\n";
         int option;
         std::array<std::pair<std::string, std::function<void()>>, 3> impExpOptions {{
-            {"1-Import-Database", [&](){ std::cout << "Import : Give file name : ";
+            {"1-Load-from-File", [&](){ std::cout << "Import : Give file name : ";
                                         std::string fileName;
                                         std::cin >> fileName;
                                         university.importDatabase(fileName);
                                         return; }},
-            {"2-Export-Database", [&](){ std::cout << "Export : Give file name : ";
+            {"2-Save-to-File", [&](){ std::cout << "Export : Give file name : ";
                                         std::string fileName;
                                         std::cin >> fileName;
-                                        {do
-                                        {
-                                            std::cout << "If you continue you will delte all records in database. Do you want to continue? ( y/n ): ";
-                                            char c;
-                                            std::cin >> c;
-                                            if (c == 'n') {
-                                                option += 1;
-                                                return;
-                                            }
-                                            if (c == 'y') { break; }
-                                        } while (true);
-
                                         university.exportDatabase(fileName);
-                                        return; }}},
+                                        return; }},
             {"3-back-to-main-menu", [&](){do
                                         {
                                             std::cout << "Do you want to back to main-manu ( y/n ): ";

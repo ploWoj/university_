@@ -1,8 +1,8 @@
-Employee,Kicia,Rozek,Gdynia,66666666666,female,999999
-Employee,Kazimierz,Krol,Warszawa,76354276987,male,12765
-Employee,Krzysztof,Kowalski,Lodz,66449874536,female,5498
-Employee,Helena,Grzyb,Radom,5367598327,female,4536
-Student,Gustaw,Kameleon,Wroclaw,63542956574,male,142356
-Student,Kasia,Nowak,Warszawa,22334455667,female,162987
-Student,Edward,Nozycoreki,Szczecin,55667788990,male,165498
-Student,Martyna,Tucholska,Wroclaw,11223344556,female,162780
+Employee,Kicia,Rozek,Gdynia,75041761443,female,999999
+Employee,Kazimierz,Krol,Warszawa,99021677913,male,12765
+Employee,Krzysztof,Kowalski,Lodz,51021528613,female,5498
+Employee,Helena,Grzyb,Radom,98061814463,female,4536
+Student,Gustaw,Kameleon,Wroclaw,02242958565,male,142356
+Student,Kasia,Nowak,Warszawa,53092784338,female,162987
+Student,Edward,Nozycoreki,Szczecin,90112734418,male,165498
+Student,Martyna,Tucholska,Wroclaw,59100585715,female,162780

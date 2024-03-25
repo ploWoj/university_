@@ -33,16 +33,16 @@ void University::displayBase(std::ostream &out)
 
 void University::addStudent(const Student& student)
 {
-    try
-    {
-        /* code */
-        university_.emplace_back(std::make_unique<Student>(student));
+    if (!findByPesel(student.getPesel())) {
+        try
+        {
+            university_.emplace_back(std::make_unique<Student>(student));
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
     }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-    
 }
 
 void University::addStudent(const std::string &name, const std::string &surname, const std::string &address, const std::string &pesel, const std::string &gender, size_t indexNumber)
@@ -51,7 +51,6 @@ void University::addStudent(const std::string &name, const std::string &surname,
     {   
         try
         {
-            /* code */
             university_.emplace_back(std::make_unique<Student>(name, surname, address, pesel, gender, indexNumber));
         }
         catch(const std::exception& e)
@@ -64,16 +63,16 @@ void University::addStudent(const std::string &name, const std::string &surname,
 
 void University::addEmployee(const Employee& employee)
 {   
-    try
-    {
-        /* code */
-        university_.emplace_back(std::make_unique<Employee>(employee));
+    if(!findByPesel(employee.getPesel ())) {
+        try
+        {
+            university_.emplace_back(std::make_unique<Employee>(employee));
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+        }
     }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-    }
-    
 }
 
 void University::addEmployee(const std::string &name, const std::string &surname, const std::string &address, const std::string &pesel, const std::string &gender, double salary)
@@ -82,14 +81,12 @@ void University::addEmployee(const std::string &name, const std::string &surname
     {   
         try
         {
-            /* code */
             university_.emplace_back(std::make_unique<Employee>(name, surname, address, pesel, gender, salary));
         }
         catch(const std::exception& e)
         {
             std::cerr << e.what() << '\n';
         }
-        
     }
 }
 

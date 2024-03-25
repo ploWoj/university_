@@ -24,8 +24,7 @@ public:
             std::cin >> str;
             data[i] = str;
             str.clear();
-        }
-        
+        }    
 
         try
         {
@@ -35,7 +34,6 @@ public:
         {
             std::cerr << e.what() << '\n';
         }
-        
         
         std::cout << "......................................................................................\n";
         std::cout << "Done\n";
