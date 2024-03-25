@@ -102,7 +102,8 @@ std::string Person::getGender() const
 
 std::ostream &operator<<(std::ostream &os, const Person &person)
 {
-    os << person.name_ << person.surname_ << person.address_ << person.gender_;
+    os << person.name_ << Person::formatDelimiter << person.surname_ << Person::formatDelimiter << person.address_ 
+       << Person::formatDelimiter << person.pesel_ << Person::formatDelimiter <<  person.gender_;
     return os;
 }
 

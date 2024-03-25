@@ -4,7 +4,7 @@ project(university_)
 set(CMAKE_CXX_STANDARD 20)
 
 set(SOURCE src/Person.cpp src/Student.cpp src/Employee.cpp src/db.cpp src/University.cpp)
-set(FLAGS -Wall -Wextra -Wpedantic -Wno-conversion -Werror -g -O0)
+set(FLAGS -Wall -Wextra -Wpedantic -Wno-conversion -g -O0)
 set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH}/usr/lib/x86_64-linux-gnu/libmysqlclient.so)
 
 set(INPUT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/src/db.txt)
@@ -20,3 +20,9 @@ link_directories(CMKAE_LIBRARY_PATH)
 add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}-lib mysqlclient)
 target_compile_options(${PROJECT_NAME} PRIVATE ${FLAGS})
+
+add_executable (${PROJECT_NAME}-person-ut tests/test-person.cpp tests/catch_amalgamated.cpp)
+target_include_directories(${PROJECT_NAME}-person-ut PUBLIC src )
+
+target_compile_options (${PROJECT_NAME}-person-ut PRIVATE ${FLAGS})
+target_link_libraries(${PROJECT_NAME}-person-ut PRIVATE ${PROJECT_NAME}-lib)
