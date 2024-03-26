@@ -20,8 +20,8 @@ SCENARIO("Should add Students and Employees to the base and display the list",
             "female", 7777};
 
         static std::string str{
-            "Employees:\nAnna,Nowak,Krakow,92092312978,female,7777\n"
-            "Students:\nJan,Kowalski,Warszawa,80102818499,male,12345\n"};
+            "Employees:\nAnna,Nowak,Krakow,92092312978,female,7777,\n"
+            "Students:\nJan,Kowalski,Warszawa,80102818499,male,12345,\n"};
 
         WHEN("They are added to the base and displayed to a stream")
         {
@@ -48,14 +48,14 @@ SCENARIO("Should find by surname string",
         Student student{"Jan", "Kowalski",
                         "Warszawa", "80102818499",
                         "male", 12345};
-        
+
         base.addStudent(student);
         WHEN("findBySurname is called")
         {
             auto person_ptr = base.findBySurname(student.getPesel());
             THEN("Should return pointet with student data")
             {
-                auto student_ptr = dynamic_cast<Student*>(person_ptr);
+                auto student_ptr = dynamic_cast<Student *>(person_ptr);
                 REQUIRE(student_ptr);
                 REQUIRE(*student_ptr == student);
             }
@@ -72,16 +72,52 @@ SCENARIO("Should search by pesel string",
         Student student{"Jan", "Kowalski",
                         "Warszawa", "80102818499",
                         "male", 12345};
-        
+
         base.addStudent(student);
         WHEN("findByPesel is called")
         {
             auto person_ptr = base.findBySurname(student.getPesel());
             THEN("Should return pointet with student data")
             {
-                auto student_ptr = dynamic_cast<Student*>(person_ptr);
+                auto student_ptr = dynamic_cast<Student *>(person_ptr);
                 REQUIRE(student_ptr);
                 REQUIRE(*student_ptr == student);
+            }
+        }
+    }
+}
+
+SCENARIO("Should sort the base by surname", "[universitybase][surname][sort]")
+{
+    GIVEN("A base with two Students, whose surnames vary")
+    {
+        Student student1{
+            "Jan", "Kowalski",
+            "Warszawa", "80102818499",
+            "male", 12345};
+
+        Student student2{
+            "Anna", "Nowak",
+            "Krakow", "92092312978",
+            "female", 7777};
+
+        University base{};
+        base.addStudent(student2);
+        base.addStudent(student1);
+
+        static constexpr std::string_view string{
+            "Employees:\n"
+            "Students:\nJan,Kowalski,Warszawa,80102818499,male,12345,\n"
+            "Anna,Nowak,Krakow,92092312978,female,7777,\n"};
+        WHEN("sort_by_pesel is called")
+        {
+            base.sortBySurname();
+            std::stringstream stream{};
+            base.displayBase(stream);
+
+            THEN("The list should be sorted")
+            {
+                REQUIRE(stream.str() == string);
             }
         }
     }
