@@ -1,5 +1,5 @@
 #include <sstream>
-#include <string>
+#include <string_view>
 #include "../src/University.hpp"
 #include "catch_amalgamated.hpp"
 #include <assert.h>
@@ -19,7 +19,7 @@ SCENARIO("Should add Students and Employees to the base and display the list",
             "Krakow", "92092312978",
             "female", 7777};
 
-        static std::string str{
+        static constexpr std::string_view str{
             "Employees:\nAnna,Nowak,Krakow,92092312978,female,7777,\n"
             "Students:\nJan,Kowalski,Warszawa,80102818499,male,12345,\n"};
 
@@ -87,9 +87,9 @@ SCENARIO("Should search by pesel string",
     }
 }
 
-SCENARIO("Should sort the base by surname", "[universitybase][surname][sort]")
+SCENARIO("Should sort the base by pesel", "[universitybase][surname][pesel]")
 {
-    GIVEN("A base with two Students, whose surnames vary")
+    GIVEN("A base with two Students, whose surnames and pesels vary")
     {
         Student student1{
             "Jan", "Kowalski",
@@ -107,16 +107,47 @@ SCENARIO("Should sort the base by surname", "[universitybase][surname][sort]")
 
         static constexpr std::string_view string{
             "Employees:\n"
-            "Students:\nJan,Kowalski,Warszawa,80102818499,male,12345,\n"
-            "Anna,Nowak,Krakow,92092312978,female,7777,\n"};
+            "Students:\nAnna,Nowak,Krakow,92092312978,female,7777,\n"
+            "Jan,Kowalski,Warszawa,80102818499,male,12345,\n"};
         WHEN("sort_by_pesel is called")
         {
-            base.sortBySurname();
+            base.sortByPesel();
             std::stringstream stream{};
             base.displayBase(stream);
 
             THEN("The list should be sorted")
             {
+                REQUIRE(stream.str() == string);
+            }
+        }
+    }
+}
+
+SCENARIO("Should remove Student byIndex",
+         "[universitybase][erase][index_num]") {
+    GIVEN("A base with two Students") {
+        Student student1{"Jan",        "Kowalski",
+                         "Warszawa",   "80102818499",
+                         "male", 12345};
+
+        Student student2{
+            "Anna",         "Nowak",
+            "Krakow",       "92092312978",
+            "female", 7777};
+
+        University base{};
+        base.addStudent(student2);
+        base.addStudent(student1);
+
+        static constexpr std::string_view string{
+            "Employees:\n"
+            "Students:\nJan,Kowalski,Warszawa,80102818499,male,12345,\n"};
+        WHEN("removeByIndex is called") {
+            base.removeByIndexNumber(student2.getIndex());
+            std::stringstream stream{};
+            base.displayBase(stream);
+
+            THEN("The list should be sorted") {
                 REQUIRE(stream.str() == string);
             }
         }
