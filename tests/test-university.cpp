@@ -56,7 +56,7 @@ SCENARIO("Should find by surname string",
             auto person_ptr = base.findBySurname(student.getSurname());
             THEN("Should return pointet with student data")
             {
-                auto student_ptr = dynamic_cast<Student*>(person_ptr);
+                auto student_ptr = dynamic_cast<Student *>(person_ptr);
                 REQUIRE(student_ptr);
                 REQUIRE(*student_ptr == student);
             }
@@ -177,7 +177,7 @@ SCENARIO("Should change a name by pesel",
         static constexpr std::string_view string{
             "Employees:\nTomasz,Kowalski,Warszawa,80102818499,male,17000,\n"
             "Students:\n"};
-        
+
         WHEN("set new name is called")
         {
             auto person = base.findByPesel(employee.getPesel());
