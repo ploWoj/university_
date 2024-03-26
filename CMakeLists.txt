@@ -32,3 +32,11 @@ target_include_directories(${PROJECT_NAME}-employee-ut PUBLIC src )
 
 target_compile_options (${PROJECT_NAME}-employee-ut PRIVATE ${FLAGS})
 target_link_libraries(${PROJECT_NAME}-employee-ut PRIVATE ${PROJECT_NAME}-lib)
+# unviersity
+add_executable (${PROJECT_NAME}-university-ut tests/test-university.cpp tests/catch_amalgamated.cpp)
+target_include_directories(${PROJECT_NAME}-university-ut PUBLIC src )
+
+target_compile_options (${PROJECT_NAME}-university-ut PRIVATE ${FLAGS})
+target_link_libraries(${PROJECT_NAME}-university-ut PRIVATE ${PROJECT_NAME}-lib mysqlclient)
+
+# 
