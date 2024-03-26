@@ -22,3 +22,22 @@ SCENARIO("Should output the Person to a stream", "[person][stream][output]") {
         }
     }
 }
+
+SCENARIO("Should parse the Person from a stream", "[person][stream][input]") {
+    GIVEN("A Person object") {
+        Person person{"Jan", "Kowalski", "Warszawa",
+                       "70080837171", "male"};
+        std::stringstream stream{"Jan,Kowalski,Warszawa,70080837171,male"};
+        
+        WHEN("It's parsed from a stream") {
+            Person personInput{};
+            stream >> personInput;
+
+            THEN("It should be in CSV format") {
+                REQUIRE(personInput == person);
+            }
+        }
+    }
+}
+
+
