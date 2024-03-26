@@ -20,9 +20,15 @@ link_directories(CMKAE_LIBRARY_PATH)
 add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}-lib mysqlclient)
 target_compile_options(${PROJECT_NAME} PRIVATE ${FLAGS})
-
+# preson-test
 add_executable (${PROJECT_NAME}-person-ut tests/test-person.cpp tests/catch_amalgamated.cpp)
 target_include_directories(${PROJECT_NAME}-person-ut PUBLIC src )
 
 target_compile_options (${PROJECT_NAME}-person-ut PRIVATE ${FLAGS})
 target_link_libraries(${PROJECT_NAME}-person-ut PRIVATE ${PROJECT_NAME}-lib)
+# emloyee-test
+add_executable (${PROJECT_NAME}-employee-ut tests/test-employee.cpp tests/catch_amalgamated.cpp)
+target_include_directories(${PROJECT_NAME}-employee-ut PUBLIC src )
+
+target_compile_options (${PROJECT_NAME}-employee-ut PRIVATE ${FLAGS})
+target_link_libraries(${PROJECT_NAME}-employee-ut PRIVATE ${PROJECT_NAME}-lib)
