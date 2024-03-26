@@ -10,9 +10,10 @@ SCENARIO("Should add Students and Employees to the base and display the list",
     GIVEN("A UniversityBase object, a Student and an Employee")
     {
         University base{};
-        Student student{"Jan", "Kowalski",
-                        "Warszawa", "80102818499",
-                        "male", 12345};
+        Student student{
+            "Jan", "Kowalski",
+            "Warszawa", "80102818499",
+            "male", 12345};
 
         Employee employee{
             "Anna", "Nowak",
@@ -31,7 +32,7 @@ SCENARIO("Should add Students and Employees to the base and display the list",
             std::stringstream stream{};
             base.displayBase(stream);
 
-            THEN("The obtained string should match the str string")
+            THEN("The obtained string should match the str")
             {
                 REQUIRE(stream.str() == str);
             }
@@ -52,10 +53,10 @@ SCENARIO("Should find by surname string",
         base.addStudent(student);
         WHEN("findBySurname is called")
         {
-            auto person_ptr = base.findBySurname(student.getPesel());
+            auto person_ptr = base.findBySurname(student.getSurname());
             THEN("Should return pointet with student data")
             {
-                auto student_ptr = dynamic_cast<Student *>(person_ptr);
+                auto student_ptr = dynamic_cast<Student*>(person_ptr);
                 REQUIRE(student_ptr);
                 REQUIRE(*student_ptr == student);
             }
@@ -76,7 +77,7 @@ SCENARIO("Should search by pesel string",
         base.addStudent(student);
         WHEN("findByPesel is called")
         {
-            auto person_ptr = base.findBySurname(student.getPesel());
+            auto person_ptr = base.findByPesel(student.getPesel());
             THEN("Should return pointet with student data")
             {
                 auto student_ptr = dynamic_cast<Student *>(person_ptr);
@@ -124,15 +125,18 @@ SCENARIO("Should sort the base by pesel", "[universitybase][surname][pesel]")
 }
 
 SCENARIO("Should remove Student byIndex",
-         "[universitybase][erase][index_num]") {
-    GIVEN("A base with two Students") {
-        Student student1{"Jan",        "Kowalski",
-                         "Warszawa",   "80102818499",
-                         "male", 12345};
+         "[universitybase][erase][index_num]")
+{
+    GIVEN("A base with two Students")
+    {
+        Student student1{
+            "Jan", "Kowalski",
+            "Warszawa", "80102818499",
+            "male", 12345};
 
         Student student2{
-            "Anna",         "Nowak",
-            "Krakow",       "92092312978",
+            "Anna", "Nowak",
+            "Krakow", "92092312978",
             "female", 7777};
 
         University base{};
@@ -142,12 +146,47 @@ SCENARIO("Should remove Student byIndex",
         static constexpr std::string_view string{
             "Employees:\n"
             "Students:\nJan,Kowalski,Warszawa,80102818499,male,12345,\n"};
-        WHEN("removeByIndex is called") {
+        WHEN("removeByIndex is called")
+        {
             base.removeByIndexNumber(student2.getIndex());
             std::stringstream stream{};
             base.displayBase(stream);
 
-            THEN("The list should be sorted") {
+            THEN("The list should be sorted")
+            {
+                REQUIRE(stream.str() == string);
+            }
+        }
+    }
+}
+
+SCENARIO("Should change a name by pesel",
+         "[universitybase][name][pesel][set]")
+{
+    GIVEN("A base with an Employee")
+    {
+        Employee employee{
+            "Jan", "Kowalski",
+            "Warszawa", "80102818499",
+            "male", 17000};
+
+        University base{};
+        base.addEmployee(employee);
+        std::string newName = "Tomasz";
+
+        static constexpr std::string_view string{
+            "Employees:\nTomasz,Kowalski,Warszawa,80102818499,male,17000,\n"
+            "Students:\n"};
+        
+        WHEN("set new name is called")
+        {
+            auto person = base.findByPesel(employee.getPesel());
+            person->setName(newName);
+            std::stringstream stream{};
+            base.displayBase(stream);
+
+            THEN("The list should have the changed salary")
+            {
                 REQUIRE(stream.str() == string);
             }
         }

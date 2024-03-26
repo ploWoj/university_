@@ -12,7 +12,7 @@ const std::vector<std::unique_ptr<Person>> &University::getVector() const
 
 void University::displayBase(std::ostream &out)
 {
-    out << "Employees: \n";
+    out << "Employees:\n";
     for (const auto &person_ptr : university_)
     {
         if (const auto employee_ptr{dynamic_cast<Employee *>(person_ptr.get())})
@@ -21,7 +21,7 @@ void University::displayBase(std::ostream &out)
         }
     }
 
-    out << "Students: \n";
+    out << "Students:\n";
     for (const auto &person_ptr : university_)
     {
         if (const auto student_ptr{dynamic_cast<Student *>(person_ptr.get())})
